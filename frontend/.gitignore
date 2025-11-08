@@ -1,0 +1,71 @@
+# ========================================
+# 🌟 Expense Mobile App - .gitignore
+# ========================================
+
+# 🖥️ System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 🧩 Node and build directories
+node_modules/
+dist/
+build/
+.cache/
+.temp/
+.quasar/
+
+# 🧱 Quasar core directories
+.quasar/
+dist/
+
+# 📱 Cordova related directories and files
+src-cordova/node_modules/
+src-cordova/platforms/
+src-cordova/plugins/
+src-cordova/www/
+
+# ⚡ Capacitor related directories and files
+src-capacitor/node_modules/
+src-capacitor/www/
+
+# 🧠 BEX (Browser Extension) related directories and files
+src-bex/www/
+src-bex/js/core/
+
+# 🪵 Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ⚙️ Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# 🧰 Editor and IDE configuration
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# 📦 Lock files (optional — uncomment if you want to ignore)
+# yarn.lock
+# package-lock.json
+
+# 🧪 Test coverage
+coverage/
+tests/e2e/reports/
+tests/unit/coverage/
+
+# 💾 Misc
+*.bak
+*.tmp
+*.swp
+
+# ========================================
+# ✅ End of .gitignore
+# ========================================

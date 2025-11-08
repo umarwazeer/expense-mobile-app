@@ -1,0 +1,19 @@
+(globalThis.TURBOPACK = globalThis.TURBOPACK || []).push([
+    "static/chunks/[next]_entry_page-loader_ts_ddbde4._.js",
+    {},
+]);
+(globalThis.TURBOPACK_CHUNK_LISTS = globalThis.TURBOPACK_CHUNK_LISTS || []).push({
+  "path": "static/chunks/[next]_entry_page-loader_ts_ddbde4._.js",
+  "chunks": [
+    "static/chunks/node_modules_next_dist_ae5fd8._.js",
+    "static/chunks/node_modules_react_1cad9b._.js",
+    "static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e07.js",
+    "static/chunks/node_modules_react-dom_f14d04._.js",
+    "static/chunks/node_modules_posthog-js_d0a5d0._.js",
+    "static/chunks/node_modules_69e050._.js",
+    "static/chunks/[root of the server]__08b8a6._.js",
+    "static/chunks/styles_globals_796361.css",
+    "static/chunks/node_modules_next_dist_pages_3731bf._.js"
+  ],
+  "source": "entry"
+});
