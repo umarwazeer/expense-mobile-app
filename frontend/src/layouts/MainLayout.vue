@@ -113,6 +113,14 @@
 import { defineComponent, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import EssentialLink from 'components/EssentialLink.vue'
+
+import { useAuthStore } from 'src/stores/auth'
+// import { useRouter } from 'vue-router'
+
+const $q = useQuasar()
+const auth = useAuthStore()
+// const router = useRouter()
+
 const showLogoutDialog = ref(false)
 
 const linksList = [
@@ -123,7 +131,7 @@ const linksList = [
   { title: 'Budget', caption: 'Plan your spending', icon: 'savings', to: 'budget' },
   { title: 'Analytics', caption: 'View financial stats', icon: 'stacked_line_chart', to: 'analytics' },
   { title: 'Setting', caption: 'Manage settings', icon: 'settings_suggest', to: 'setting' },
-  { title: 'Logout', caption: 'Logout now', icon: 'logout', to: 'loginPage' }
+  { title: 'Logout', caption: 'Logout now', icon: 'logout', to: 'login' }
 ]
 
 
@@ -157,10 +165,10 @@ export default defineComponent({
         cancel: true,
         persistent: true
       }).onOk(() => {
-        // Redirect to login page
-        window.location.href = '/#/loginPage'
-      })
-    }
+        $q.notify({ type: 'positive', message: 'Logged out successfully!' })
+        auth.logout()  // Make sure logout action clears token and user
+          })
+        }
 
     return {
       essentialLinks: linksList,

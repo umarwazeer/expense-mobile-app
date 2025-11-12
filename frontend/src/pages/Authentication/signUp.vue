@@ -1,131 +1,110 @@
 <template>
-  <div class="absolute-center q-pa-md" style="margin:10px 0;">
-     <q-card class="my-card"
-             style="-webkit-box-shadow: -10px 0px 13px -7px #5B9773, 10px 0px 13px -7px #000000, 5px 5px 15px 5px     rgba(91,151,115,0);box-shadow: -10px 0px 13px -7px #5B9773, 10px 0px 13px -7px #5B9773, 5px 5px 15px 5px rgba(91,151,115,0);
-                    border-radius:15px;width:340px;border-bottom:11px solid #FFCB00;">
+  <q-page class="flex flex-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <q-card class="q-pa-lg shadow-3 rounded-borders" style="width: 400px; max-width: 90vw;">
+      <div class="text-center q-mb-md">
+        <q-icon name="account_circle" color="indigo" size="56px" />
+        <div class="text-h5 text-weight-bold q-mt-sm">FineTracker</div>
+        <div class="text-grey-7 text-subtitle2">
+          {{ isRegister ? 'Create your account' : 'Sign in to continue' }}
+        </div>
+      </div>
 
-     <i class="material-icons text-green-10" style="border-radius:100px;background:#fff;font-size:100px;margin:-35px 0 0 120px;border:solid #fff 2px;">account_circle</i>
-       <q-img
-        :src="url"
-        spinner-color="white"
-        style="margin:0 auto 10px auto;display: block;height: 44px; width:199px"
-      ></q-img>
+      <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
+        <div v-if="isRegister" class="row q-col-gutter-sm">
+          <div class="col-6">
+            <q-input v-model="formData.firstName" label="First Name" outlined dense />
+          </div>
+          <div class="col-6">
+            <q-input v-model="formData.lastName" label="Last Name" outlined dense />
+          </div>
+        </div>
 
-        <q-card-section>
+        <q-input v-model="formData.username" label="Username" outlined dense />
+        <q-input v-if="isRegister" v-model="formData.email" label="Email" type="email" outlined dense />
+        <q-input v-model="formData.password" label="Password" type="password" outlined dense />
 
-      <q-form
-        @submit="onSubmit"
-        @reset="onReset"
-        class="q-gutter-md"
-        style="padding:0 29px 18px 29px;"
-      >
+        <q-btn
+          type="submit"
+          color="indigo"
+          label="Submit"
+          :loading="isLoading"
+          class="full-width q-mt-md"
+          rounded
+        />
 
-        <q-input
-          color="green"
-          v-model="user"
-          label="Username"
-          hint=""
-          dense
-          lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Por favor, digite seu usuário!']"
-        >
-      </q-input>
-
-        <q-input
-          color="green"
-          v-model="email"
-          label="Email"
-          hint=""
-          dense
-          lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Por favor, digite seu usuário!']"
-        ></q-input>
-        <q-input
-        dense
-          color="green"
-          :type="isPwd ? 'password' : 'text'"
-          v-model="password"
-          label="Password"
-          lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Por favor digite sua senha!']"
-        >
-                    <template v-slot:append>
-            <q-icon
-              :name="isPwd ? 'visibility_off' : 'visibility'"
-              class="cursor-pointer"
-              @click="isPwd = !isPwd"
-            ></q-icon>
-          </template>
-
-        </q-input>
-
-        <q-input
-          color="blue"
-          v-model="contact"
-          label="Contact"
-          hint=""
-          lazy-rules
-          dense
-          :rules="[ val => val && val.length > 0 || 'Por favor, digite seu usuário!']"
-        ></q-input>
-
-        <div>
-          <q-btn class="full-width"  label="Sign Up" type="submit" color="cyan-8"></q-btn>
+        <div class="text-center q-mt-md">
+          <q-btn
+            flat
+            color="indigo"
+            size="sm"
+            @click="toggleMode"
+            :label="isRegister ? 'Already have an account? Sign In' : 'Don’t have an account? Sign Up'"
+          />
         </div>
       </q-form>
-
-           </q-card-section>
-      </q-card>
-
-</div>
-
+    </q-card>
+  </q-page>
 </template>
-<script>
 
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 
-export default {
-  data () {
-    return {
-      password: '',
-      contact: null,
-      isPwd: true,
-      name: null,
-      age: null,
-      accept: false,
-      url: 'https://docs.google.com/uc?id=18LEqoq7eA61_wHZtM4pBgLu_SMOzj4y-'
-    }
-  },
-  methods: {
-    onSubmit () {
-      if (this.accept !== true) {
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'fas fa-exclamation-triangle',
-          message: 'You need to accept the license and terms first'
-        })
-      }
-      else {
-        this.$q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'fas fa-check-circle',
-          message: 'Submitted'
-        })
-      }
-    },
+const router = useRouter()
+const $q = useQuasar()
 
-    onReset () {
-      this.name = null
-      this.age = null
-      this.accept = false
-    }
-  }
+const isRegister = ref(false)
+const isLoading = ref(false)
+
+const formData = ref({
+  firstName: '',
+  lastName: '',
+  username: '',
+  email: '',
+  password: ''
+})
+
+function toggleMode() {
+  isRegister.value = !isRegister.value
+  formData.value = { firstName: '', lastName: '', username: '', email: '', password: '' }
 }
 
+function handleSubmit() {
+  isLoading.value = true
+  setTimeout(() => {
+    if (isRegister.value) {
+      if (
+        !formData.value.firstName ||
+        !formData.value.lastName ||
+        !formData.value.username ||
+        !formData.value.email ||
+        !formData.value.password
+      ) {
+        $q.notify({ type: 'negative', message: 'Please fill all fields' })
+      } else if (formData.value.password.length < 8) {
+        $q.notify({ type: 'warning', message: 'Password must be at least 8 characters' })
+      } else {
+        // Save new user data in localStorage
+        localStorage.setItem('user', JSON.stringify(formData.value))
+        $q.notify({ type: 'positive', message: 'Account created! Please sign in.' })
+        isRegister.value = false
+      }
+    } else {
+      const savedUser = JSON.parse(localStorage.getItem('user'))
+      if (
+        savedUser &&
+        savedUser.username === formData.value.username &&
+        savedUser.password === formData.value.password
+      ) {
+        $q.notify({ type: 'positive', message: 'Welcome back!' })
+        localStorage.setItem('loggedIn', 'true')
+        router.push('/')
+      } else {
+        $q.notify({ type: 'negative', message: 'Invalid username or password' })
+      }
+    }
+    isLoading.value = false
+  }, 1000)
+}
 </script>
-
-
-
-
-

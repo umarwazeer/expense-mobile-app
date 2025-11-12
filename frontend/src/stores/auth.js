@@ -1,8 +1,10 @@
+// ✅ src/stores/auth.js
+
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import router from '../router'  
+import { useRouter } from 'vue-router' // ✅ correct router usage
 
-const API_URL = 'http://localhost:8000/api'
+const API_URL = 'http://127.0.0.1:8000/api'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -25,11 +27,9 @@ export const useAuthStore = defineStore('auth', {
         this.user = data.user
         this.isAuthenticated = true
 
-        // Save token locally
         localStorage.setItem('token', this.token)
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
 
-        await router.push('/dashboard')
         return { success: true }
       } catch (error) {
         const message =
@@ -51,11 +51,11 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('token', this.token)
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
 
-        await router.push('/dashboard')
         return { success: true }
       } catch (error) {
         const message =
-          error.response?.data?.detail ||
+          error.response?.data?.username?.[0] ||
+          error.response?.data?.email?.[0] ||
           error.response?.data?.error ||
           'Registration failed'
         return { success: false, error: message }
@@ -63,18 +63,17 @@ export const useAuthStore = defineStore('auth', {
     },
 
     // ✅ LOGOUT
-    async logout() {
+    logout() {
+      const router = useRouter()
       this.user = null
       this.token = null
       this.isAuthenticated = false
-
       localStorage.removeItem('token')
       delete axios.defaults.headers.common['Authorization']
-
-      await router.push('/login')
+      router.push('/auth/login')
     },
 
-    // ✅ CHECK AUTH (on reload)
+    // ✅ CHECK AUTH STATE
     checkAuth() {
       const token = localStorage.getItem('token')
       if (token) {

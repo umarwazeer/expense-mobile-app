@@ -1,177 +1,216 @@
 <template>
-  <q-page class="flex flex-center bg-gradient-to-br from-blue-50 to-indigo-100 q-pa-md">
-    <q-card class="q-pa-lg q-px-xl q-py-xl shadow-4 rounded-borders bg-white" style="max-width: 420px; width: 100%;">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 font-sans">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
       <!-- Header -->
-      <div class="text-center q-mb-md">
-        <div
-          class="bg-indigo-600 q-mx-auto flex flex-center q-pa-md rounded-borders shadow-2"
-          style="width: 64px; height: 64px;"
-        >
-          <q-icon name="attach_money" color="white" size="32px" />
+      <div class="text-center">
+        <div class="mx-auto flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl shadow-md mb-4">
+          <Landmark class="text-white w-8 h-8" />
         </div>
-        <h1 class="text-h5 text-primary q-mt-md text-bold">FineTracker</h1>
-        <p class="text-grey-7 q-py-md">
-          {{ isRegister ? 'Create your account' : 'Welcome back' }}
+        <h1 class="text-3xl font-bold text-gray-900">FineTracker</h1>
+        <p class="text-gray-600 mt-2">
+          {{ isRegister ? 'Create your account to get started' : 'Welcome back! Please sign in' }}
         </p>
       </div>
 
+      <!-- Feedback Messages -->
+      <div class="min-h-[2rem]">
+        <div
+          v-if="error"
+          class="w-full p-3 rounded-lg text-sm bg-red-100 text-red-800"
+        >
+          {{ error }}
+        </div>
+        <div
+          v-else-if="success"
+          class="w-full p-3 rounded-lg text-sm bg-green-100 text-green-800"
+        >
+          {{ success }}
+        </div>
+      </div>
+
       <!-- Auth Form -->
-      <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
-        <!-- Name Fields (Register Only) -->
-        <div v-if="isRegister" class="row q-col-gutter-md">
-          <div class="col">
-            <q-input
-              v-model="formData.first_name"
-              outlined
-              dense
-              label="First Name"
-              required
-              :disable="isLoading"
+      <form @submit.prevent="handleSubmit" class="space-y-4">
+        <!-- Name fields for registration -->
+        <div v-if="isRegister" class="flex flex-col sm:flex-row gap-2">
+          <div class="relative w-full">
+            <User class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="First Name"
+              v-model="formData.firstName"
+              :disabled="isLoading"
+              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300"
             />
           </div>
-          <div class="col">
-            <q-input
-              v-model="formData.last_name"
-              outlined
-              dense
-              label="Last Name"
-              required
-              :disable="isLoading"
+          <div class="relative w-full">
+            <User class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Last Name"
+              v-model="formData.lastName"
+              :disabled="isLoading"
+              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300"
             />
           </div>
         </div>
 
         <!-- Username -->
-        <q-input
-          v-model="formData.username"
-          outlined
-          dense
-          label="Username"
-          required
-          :disable="isLoading"
-        />
-
-        <!-- Email (Register Only) -->
-        <q-input
-          v-if="isRegister"
-          v-model="formData.email"
-          outlined
-          dense
-          label="Email"
-          type="email"
-          required
-          :disable="isLoading"
-        />
-
-        <!-- Password -->
-        <q-input
-          v-model="formData.password"
-          outlined
-          dense
-          label="Password"
-          type="password"
-          required
-          :disable="isLoading"
-        />
-
-        <!-- Submit Button -->
-        <q-btn
-          type="submit"
-          :loading="isLoading"
-          :label="isRegister ? 'Sign Up' : 'Sign In'"
-          color="indigo"
-          unelevated
-          class="full-width q-py-sm text-white text-bold"
-        />
-
-        <!-- Toggle Button -->
-        <div class="text-center q-mt-md">
-          <q-btn
-            flat
-            color="primary"
-            size="sm"
-            @click="toggleMode"
-            :label="isRegister ? 'Already have an account? Sign In' : 'Don\'t have an account? Sign Up'"
+        <div class="relative">
+          <User class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Username"
+            v-model="formData.username"
+            :disabled="isLoading"
+            required
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300"
           />
         </div>
-      </q-form>
-    </q-card>
-  </q-page>
+
+        <!-- Email for registration -->
+        <div v-if="isRegister" class="relative">
+          <Mail class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <input
+            type="email"
+            placeholder="Email"
+            v-model="formData.email"
+            :disabled="isLoading"
+            required
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300"
+          />
+        </div>
+
+        <!-- Password field with eye toggle -->
+        <div class="relative">
+          <KeyRound class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <input
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            v-model="formData.password"
+            :disabled="isLoading"
+            required
+            class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300"
+          />
+          <!-- Eye icon -->
+          <button
+            type="button"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+            @click="showPassword = !showPassword"
+          >
+            <span v-if="showPassword">
+              <EyeOff class="w-5 h-5" />
+            </span>
+            <span v-else>
+              <Eye class="w-5 h-5" />
+            </span>
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          :disabled="isLoading"
+          class="w-full flex justify-center items-center gap-2 bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300 disabled:bg-indigo-400 disabled:cursor-not-allowed"
+        >
+          <LoaderCircle v-if="isLoading" class="animate-spin w-5 h-5" />
+          <template v-else>
+            <UserPlus v-if="isRegister" class="w-5 h-5" />
+            <LogIn v-else class="w-5 h-5" />
+          </template>
+          {{ isLoading ? 'Processing...' : isRegister ? 'Sign Up' : 'Sign In' }}
+        </button>
+      </form>
+
+      <!-- Toggle Button -->
+      <div class="text-center mt-6">
+        <button
+          @click="toggleMode"
+          class="text-sm text-indigo-600 hover:text-indigo-800 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
+        >
+          {{ isRegister ? 'Already have an account? Sign In' : "Don’t have an account? Sign Up" }}
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '../../stores/auth'
+import { ref } from 'vue'
+import { Landmark, UserPlus, LogIn, Mail, User, KeyRound, LoaderCircle, Eye, EyeOff } from 'lucide-vue-next'
+import { useAuthStore } from 'src/stores/auth'
 import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
-const router = useRouter()
-const authStore = useAuthStore()
+const auth = useAuthStore()
 
 const isRegister = ref(false)
 const isLoading = ref(false)
+const error = ref(null)
+const success = ref(null)
+const showPassword = ref(false)  // 🔹 new reactive variable
 
-const formData = reactive({
+const formData = ref({
+  firstName: '',
+  lastName: '',
   username: '',
   email: '',
-  password: '',
-  first_name: '',
-  last_name: ''
+  password: ''
 })
 
-const handleSubmit = async () => {
+function toggleMode() {
+  isRegister.value = !isRegister.value
+  error.value = null
+  success.value = null
+  formData.value = {
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    password: ''
+  }
+  showPassword.value = false
+}
+
+async function handleSubmit() {
+  error.value = null
+  success.value = null
   isLoading.value = true
 
-  const result = isRegister.value
-    ? await authStore.register(formData)
-    : await authStore.login({
-        username: formData.username,
-        password: formData.password
-      })
-
-  if (result.success) {
-    $q.notify({
-      color: 'positive',
-      message: isRegister.value ? 'Account created successfully!' : 'Welcome back!',
-      caption: isRegister.value
-        ? 'You can now sign in with your new credentials.'
-        : 'Redirecting to home...',
-      icon: 'check_circle',
-      position: 'top'
-    })
-
-    if (!isRegister.value) {
-      setTimeout(() => router.push('/home'), 1000)
+  try {
+    let response
+    if (isRegister.value) {
+      const userData = {
+        first_name: formData.value.firstName,
+        last_name: formData.value.lastName,
+        username: formData.value.username,
+        email: formData.value.email,
+        password: formData.value.password
+      }
+      response = await auth.register(userData)
+      if (response.success) {
+        success.value = 'Account created successfully! Redirecting...'
+        $q.notify({ type: 'positive', message: 'Account created!' })
+      } else {
+        error.value = response.error || 'Registration failed.'
+      }
     } else {
-      isRegister.value = false
+      const credentials = {
+        username: formData.value.username,
+        password: formData.value.password
+      }
+      response = await auth.login(credentials)
+      if (response.success) {
+        success.value = 'Login successful! Redirecting...'
+        $q.notify({ type: 'positive', message: 'Login successful!' })
+      } else {
+        error.value = response.error || 'Invalid username or password.'
+      }
     }
-  } else {
-    $q.notify({
-      color: 'negative',
-      message: 'Authentication failed',
-      caption: result.error || 'Something went wrong.',
-      icon: 'error',
-      position: 'top'
-    })
+  } catch (err) {
+    error.value = 'An unexpected error occurred.'
+    console.error(err)
+  } finally {
+    isLoading.value = false
   }
-
-  isLoading.value = false
-}
-
-const toggleMode = () => {
-  isRegister.value = !isRegister.value
 }
 </script>
-
-<style scoped>
-.bg-gradient-to-br {
-  background: linear-gradient(to bottom right, #ebf4ff, #c7d2fe);
-}
-.rounded-borders {
-  border-radius: 1rem;
-}
-.full-width {
-  width: 100%;
-}
-</style>

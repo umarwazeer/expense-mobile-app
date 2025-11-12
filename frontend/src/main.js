@@ -1,6 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-// import './assets/main.css'
-import './assets/tailwind.css'
+import { createApp } from 'vue';
+import { Quasar } from 'quasar';
+import App from './App.vue';
+import router from './router';
+import pinia from './stores';
 
-createApp(App).mount('#app')
+const app = createApp(App);
+
+app.use(Quasar, { /* Quasar options */ });
+app.use(pinia);
+app.use(router);
+
+app.mount('#q-app');

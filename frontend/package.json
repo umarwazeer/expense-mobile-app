@@ -22,6 +22,7 @@
     "file-saver": "^2.0.5",
     "jspdf": "^3.0.3",
     "jspdf-autotable": "^5.0.2",
+    "lucide-vue-next": "^0.553.0",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "quasar-monthpicker": "^0.1.3",
