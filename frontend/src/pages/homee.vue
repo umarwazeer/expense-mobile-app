@@ -322,7 +322,7 @@ const features = [
   { name: 'Stats', icon: 'pie_chart', color: 'purple' },
   { name: 'Budget', icon: 'target', color: 'blue' },
   { name: 'Goals', icon: 'savings', color: 'green' },
-  { name: 'CategoryPage', icon: 'category', color: 'orange' }
+  { name: 'Categories', icon: 'category', color: 'orange' }
 ]
 
 // Quick Stats
@@ -520,6 +520,34 @@ onMounted(() => {
 .header-text,
 .gradient-bg *,
 .gradient-bg .q-card,
+.gradient-bg .q-card * {
+  color: #ffffff !important;
+}
+
+/* Current Balance – strong contrast */
+.balance-title {
+  color: #f0f0f0 !important;
+  font-weight: 600;
+}
+
+.balance-amount {
+  color: #fff !important;
+  font-weight: 800;
+}
+
+/* Income & Expense Text */
+.income-text {
+  color: #a7f3d0 !important; /* green-300 */
+  font-weight: 700;
+}
+.expense-text {
+  color: #fecaca !important; /* red-300 */
+  font-weight: 700;
+}
+.income-label,
+.expense-label {
+  color: #e5e7eb !important;
+}
 
 /* Filter Buttons Text Fix */
 .filter-btn {
