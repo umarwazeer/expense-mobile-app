@@ -36,7 +36,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="p-4 -mt-4">
+    <main class="p-4 mt-1">
       
       <!-- Feature Buttons -->
       <div class="grid grid-cols-4 gap-3 mb-6">
