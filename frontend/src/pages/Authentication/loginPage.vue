@@ -139,6 +139,7 @@ import { ref } from 'vue'
 import { Landmark, UserPlus, LogIn, Mail, User, KeyRound, LoaderCircle, Eye, EyeOff } from 'lucide-vue-next'
 import { useAuthStore } from 'src/stores/auth'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 
 const $q = useQuasar()
 const auth = useAuthStore()
@@ -148,7 +149,8 @@ const isLoading = ref(false)
 const error = ref(null)
 const success = ref(null)
 const showPassword = ref(false)  // 🔹 new reactive variable
-
+const router = useRouter()
+  
 const formData = ref({
   firstName: '',
   lastName: '',
@@ -183,7 +185,7 @@ async function handleSubmit() {
         first_name: formData.value.firstName,
         last_name: formData.value.lastName,
         username: formData.value.username,
-        email: formData.value.email,
+        email: formData.value.email,      
         password: formData.value.password
       }
       response = await auth.register(userData)
@@ -202,6 +204,7 @@ async function handleSubmit() {
       if (response.success) {
         success.value = 'Login successful! Redirecting...'
         $q.notify({ type: 'positive', message: 'Login successful!' })
+        router.push({ name: 'home' }) 
       } else {
         error.value = response.error || 'Invalid username or password.'
       }

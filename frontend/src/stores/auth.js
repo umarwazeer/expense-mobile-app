@@ -1,8 +1,6 @@
-// ✅ src/stores/auth.js
-
+// src/stores/auth.js
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { useRouter } from 'vue-router' // ✅ correct router usage
 
 const API_URL = 'http://127.0.0.1:8000/api'
 
@@ -23,6 +21,7 @@ export const useAuthStore = defineStore('auth', {
     async login(credentials) {
       try {
         const { data } = await axios.post(`${API_URL}/auth/login/`, credentials)
+
         this.token = data.access
         this.user = data.user
         this.isAuthenticated = true
@@ -44,6 +43,7 @@ export const useAuthStore = defineStore('auth', {
     async register(userData) {
       try {
         const { data } = await axios.post(`${API_URL}/auth/register/`, userData)
+
         this.token = data.access
         this.user = data.user
         this.isAuthenticated = true
@@ -64,24 +64,76 @@ export const useAuthStore = defineStore('auth', {
 
     // ✅ LOGOUT
     logout() {
-      const router = useRouter()
       this.user = null
       this.token = null
       this.isAuthenticated = false
       localStorage.removeItem('token')
       delete axios.defaults.headers.common['Authorization']
-      router.push('/auth/login')
+
+      // Do redirect in the component that calls logout:
+      // const router = useRouter(); router.push('/auth/login')
     },
 
-    // ✅ CHECK AUTH STATE
+    // ✅ CHECK AUTH STATE (call once at app boot)
     checkAuth() {
       const token = localStorage.getItem('token')
       if (token) {
         this.token = token
         this.isAuthenticated = true
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        this.fetchUser().catch(() => {})
       } else {
         this.isAuthenticated = false
+        this.user = null
+        delete axios.defaults.headers.common['Authorization']
+      }
+    },
+
+    // 🔹 Load current user profile from backend
+    async fetchUser() {
+      if (!this.token) return
+      try {
+        // Adjust URL to your backend: /auth/profile/ or /auth/me/ etc.
+        const { data } = await axios.get(`${API_URL}/auth/profile/`)
+        this.user = data
+        return { success: true }
+      } catch (error) {
+        console.error('Failed to fetch user profile', error)
+        return { success: false }
+      }
+    },
+
+    // 🔹 Update profile (name, email)
+    async updateProfile(payload) {
+      try {
+        // Adjust URL + payload according to your backend
+        const { data } = await axios.put(`${API_URL}/auth/profile/`, payload)
+        this.user = data
+        return { success: true }
+      } catch (error) {
+        const message =
+          error.response?.data?.detail ||
+          error.response?.data?.error ||
+          'Failed to update profile'
+        return { success: false, error: message }
+      }
+    },
+
+    // 🔹 Change password
+    async changePassword({ currentPassword, newPassword }) {
+      try {
+        // Adjust URL + field names according to backend
+        await axios.post(`${API_URL}/auth/change-password/`, {
+          current_password: currentPassword,
+          new_password: newPassword,
+        })
+        return { success: true }
+      } catch (error) {
+        const message =
+          error.response?.data?.detail ||
+          error.response?.data?.error ||
+          'Failed to update password'
+        return { success: false, error: message }
       }
     },
   },
