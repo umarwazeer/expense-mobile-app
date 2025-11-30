@@ -1,5 +1,5 @@
 # ========================================
-# 🌟 Expense Mobile App - .gitignore
+# 🌟 Expense Mobile App - .gitignore small laptop
 # ========================================
 
 # 🖥️ System files
@@ -7,44 +7,79 @@
 Thumbs.db
 desktop.ini
 
-# 🧩 Node and build directories
+# ===========================
+# 🧩 Node and Vue/Quasar
+# ===========================
 node_modules/
 dist/
 build/
 .cache/
 .temp/
 .quasar/
-
-# 🧱 Quasar core directories
-.quasar/
-dist/
-
-# 📱 Cordova related directories and files
+frontend/node_modules/
+frontend/dist/
 src-cordova/node_modules/
+src-capacitor/node_modules/
+
+# ===========================
+# 🐍 Django and Python
+# ===========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+db.sqlite3
+env/
+venv/
+env.bak/
+venv.bak/
+
+# Django static & media
+media/
+staticfiles/
+static/
+
+# Django migrations except __init__.py
+backend/**/migrations/*.py
+!backend/**/migrations/__init__.py
+
+# ===========================
+# 📱 Cordova
+# ===========================
 src-cordova/platforms/
 src-cordova/plugins/
 src-cordova/www/
 
-# ⚡ Capacitor related directories and files
-src-capacitor/node_modules/
+# ===========================
+# ⚡ Capacitor
+# ===========================
 src-capacitor/www/
 
-# 🧠 BEX (Browser Extension) related directories and files
+# ===========================
+# 🧠 BEX
+# ===========================
 src-bex/www/
 src-bex/js/core/
 
+# ===========================
 # 🪵 Log files
+# ===========================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# ===========================
 # ⚙️ Environment files
+# ===========================
 .env
 .env.local
 .env.development
 .env.production
 
-# 🧰 Editor and IDE configuration
+# ===========================
+# 🧰 Editor Config
+# ===========================
 .idea/
 .vscode/
 *.suo
@@ -52,16 +87,21 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-# 📦 Lock files (optional — uncomment if you want to ignore)
+# ===========================
+# 📦 Lock files (optional)
 # yarn.lock
 # package-lock.json
 
-# 🧪 Test coverage
+# ===========================
+# 🧪 Tests
+# ===========================
 coverage/
 tests/e2e/reports/
 tests/unit/coverage/
 
+# ===========================
 # 💾 Misc
+# ===========================
 *.bak
 *.tmp
 *.swp

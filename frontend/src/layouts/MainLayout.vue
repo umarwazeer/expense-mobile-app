@@ -5,22 +5,22 @@ Here is the **Clean, Professional, and Compact** version.
 2.  **Compact Sidebar Header:** Removed the large colorful box. Now it is a simple, professional row with **Logo + Title**.
 3.  **Space Saving:** It takes up much less space, leaving more room for your menu items.
 
-```template
+```template.....
 <template>
   <q-layout view="lHh Lpr lFf" class="bg-gray-50 font-sans">
 
     <!-- ===========================
          🔹 HEADER (Top Bar)
     ============================ -->
-    <q-header elevated class="backdrop-blur-md" 
+    <q-header elevated class="backdrop-blur-md"
               style="background: linear-gradient(135deg, #0891b2 0%, #0ea5e9 50%, #d946ef 100%);">
       <q-toolbar class="q-py-xs">
-        
+
         <!-- Left: Menu Button + Logo -->
         <div class="flex items-center q-gutter-sm">
-          <q-btn flat dense round icon="menu" @click="toggleLeftDrawer" 
+          <q-btn flat dense round icon="menu" @click="toggleLeftDrawer"
                  class="hover:bg-white/20 rounded-xl transition-all duration-200" />
-          
+
           <!-- Header Title (Only visible on Desktop) -->
           <div class="hidden sm:flex items-center gap-2 ml-2">
              <img :src="appLogo" class="w-6 h-6 brightness-200 filter" style="filter: brightness(0) invert(1);" />
@@ -36,7 +36,7 @@ Here is the **Clean, Professional, and Compact** version.
           <q-btn flat round dense icon="notifications" class="hover:bg-white/20 rounded-xl">
              <q-badge color="red-500" floating rounded mini />
           </q-btn>
-          
+
           <!-- Profile Dropdown -->
           <q-btn flat no-caps class="hover:bg-white/20 rounded-xl pl-1 pr-2">
             <div class="flex items-center gap-2">
@@ -45,7 +45,7 @@ Here is the **Clean, Professional, and Compact** version.
               </q-avatar>
               <span class="hidden xs text-sm font-semibold">Umar</span>
             </div>
-            
+
             <q-menu auto-close class="rounded-xl shadow-xl mt-2 border border-gray-100">
               <q-list style="min-width: 150px">
                 <q-item clickable class="hover:bg-cyan-50">
@@ -72,7 +72,7 @@ Here is the **Clean, Professional, and Compact** version.
       class="bg-white"
     >
       <q-scroll-area class="fit">
-        
+
         <!-- 🔸 SIMPLE SIDEBAR HEADER -->
         <div class="flex items-center gap-3 q-px-lg q-py-md border-b border-gray-100">
            <div class="w-9 h-9 bg-cyan-50 rounded-lg flex items-center justify-center border border-cyan-100">
@@ -86,16 +86,16 @@ Here is the **Clean, Professional, and Compact** version.
 
         <!-- 🔸 Menu Items -->
         <q-list padding class="q-mt-sm text-gray-600">
-          
+
           <q-item-label header class="text-xs font-bold text-gray-400 uppercase tracking-wider ml-2 q-mb-xs">
             Main Menu
           </q-item-label>
 
-          <q-item 
-            v-for="link in menuLinks" 
+          <q-item
+            v-for="link in menuLinks"
             :key="link.title"
-            clickable 
-            v-ripple 
+            clickable
+            v-ripple
             :to="link.to"
             active-class="text-cyan-700 bg-cyan-50 border-r-4 border-cyan-500 font-semibold"
             class="mx-3 rounded-lg mb-1 hover:bg-gray-50 transition-colors"
@@ -172,7 +172,7 @@ export default defineComponent({
     const $q = useQuasar()
     const auth = useAuthStore()
     const router = useRouter()
-    
+
     const leftDrawerOpen = ref(false)
     const showLogoutDialog = ref(false)
 
