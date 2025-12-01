@@ -1,1 +1,3 @@
-web: gunicorn expense_manager.wsgi
+web: gunicorn expense-mobile-app.wsgi --log-file - 
+#or works good with external database
+web: python manage.py migrate && gunicorn expense-mobile-app.wsgi
