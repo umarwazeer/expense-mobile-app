@@ -36,9 +36,11 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "fallback-secret")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    ".railway.app",
+    "expense-mobile-app-production.up.railway.app",
+    "127.0.0.1",
     "localhost",
 ]
+
 
 # Application definition
 
@@ -101,11 +103,16 @@ if DATABASE_URL:
     }
 else:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+         'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'expense_manager_db',  # your local DB name
+            'USER': 'root',     # your MySQL user (change if needed)
+            'PASSWORD': '12345678',     # your local MySQL password
+            'HOST': '127.0.0.1',  # FIXED (must be 127.0.0.1)
+            'PORT': '3306',
         }
-    }
+}
+
 
 
 
@@ -154,11 +161,9 @@ STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 CORS_ALLOW_ALL_ORIGINS = True
-
+ 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:6060",
-    "http://127.0.0.1:6060",
-    "http://localhost:3000",
+    "https://tourmaline-travesseiro-f62f94.netlify.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
