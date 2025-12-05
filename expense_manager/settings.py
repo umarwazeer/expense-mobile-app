@@ -92,12 +92,13 @@ WSGI_APPLICATION = 'expense_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = "mysql://root:tumdXmpAzCYqfxIJqexCZHSefdwCUluz@yamabiko.proxy.rlwy.net:21695/railway"
 
 if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
+            engine="django.db.backends.mysql",
             conn_max_age=600
         )
     }
@@ -105,11 +106,14 @@ else:
     DATABASES = {
          'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'expense_manager_db',  # your local DB name
+            'NAME': 'railway',  # your local DB name
             'USER': 'root',     # your MySQL user (change if needed)
-            'PASSWORD': '12345678',     # your local MySQL password
+            'PASSWORD': 'tumdXmpAzCYqfxIJqexCZHSefdwCUluz',  # your local MySQL password
             'HOST': '127.0.0.1',  # FIXED (must be 127.0.0.1)
             'PORT': '3306',
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            }
         }
 }
 

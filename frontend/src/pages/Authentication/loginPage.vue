@@ -150,10 +150,10 @@ const error = ref(null)
 const success = ref(null)
 const showPassword = ref(false)  // 🔹 new reactive variable
 const router = useRouter()
-  
+
 const formData = ref({
-  firstName: '',
-  lastName: '',
+  first_name: '',
+  last_name: '',
   username: '',
   email: '',
   password: ''
@@ -164,8 +164,8 @@ function toggleMode() {
   error.value = null
   success.value = null
   formData.value = {
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     username: '',
     email: '',
     password: ''
@@ -182,10 +182,10 @@ async function handleSubmit() {
     let response
     if (isRegister.value) {
       const userData = {
-        first_name: formData.value.firstName,
-        last_name: formData.value.lastName,
-        username: formData.value.username,
-        email: formData.value.email,      
+        first_name: formData.value.last_name,
+        last_name: formData.value.last_name,
+        username: formData.value.last_name,
+        email: formData.value.email,
         password: formData.value.password
       }
       response = await auth.register(userData)
@@ -204,7 +204,7 @@ async function handleSubmit() {
       if (response.success) {
         success.value = 'Login successful! Redirecting...'
         $q.notify({ type: 'positive', message: 'Login successful!' })
-        router.push({ name: 'home' }) 
+        router.push({ name: 'home' })
       } else {
         error.value = response.error || 'Invalid username or password.'
       }
