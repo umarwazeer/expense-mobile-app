@@ -8,3 +8,7 @@ psycopg2-binary==2.9.9
 gunicorn
 whitenoise
 dj_database_url
+pymysql
+mysqlclient
+cryptography
+python-dotenv
