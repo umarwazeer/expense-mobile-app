@@ -111,7 +111,7 @@ else:
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'railway',  # your local DB name
             'USER': 'root',     # your MySQL user (change if needed)
-            'PASSWORD': '12345678',  # your local MySQL password
+            'PASSWORD': 'tumdXmpAzCYqfxIJqexCZHSefdwCUluz',  # your local MySQL password
             'HOST': 'yamabiko.proxy.rlwy.net',  # FIXED (must be 127.0.0.1)
             'PORT': '21695',
             'OPTIONS': {
