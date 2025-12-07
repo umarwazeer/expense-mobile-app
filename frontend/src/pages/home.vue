@@ -7,10 +7,10 @@
           <h1 class="text-xl font-bold">Expense Tracker</h1>
           <p class="text-sm opacity-90">{{ currentDate }}</p>
         </div>
-        <q-btn 
-          round 
-          dense 
-          class="bg-white bg-opacity-20 backdrop-blur" 
+        <q-btn
+          round
+          dense
+          class="bg-white bg-opacity-20 backdrop-blur"
           @click="toggleDarkMode"
           :icon="$q.dark.isActive ? 'light_mode' : 'dark_mode'"
         />
@@ -23,8 +23,8 @@
         <div class="text-3xl font-bold balance-amount">{{ formatCurrency(balance) }}</div>
           <div class="flex justify-around mt-4">
             <div class="text-center">
-             <div class="income-text">+{{ formatCurrency(income) }}</div>
-             <div class="income-label text-xs opacity-75">Income</div>
+             <div class="income-text text-red">+{{ formatCurrency(income) }}</div>
+             <div class="income-label text-red text-xs opacity-75">Income tex</div>
             </div>
             <div class="text-center">
               <div class="expense-text">-{{ formatCurrency(expense) }}</div>
@@ -37,11 +37,11 @@
 
     <!-- Main Content -->
     <main class="p-4 mt-1">
-      
+
       <!-- Feature Buttons -->
       <div class="grid grid-cols-4 gap-3 mb-6">
-        <q-btn 
-          v-for="feature in features" 
+        <q-btn
+          v-for="feature in features"
           :key="feature.name"
           class="feature-btn bg-white rounded-xl p-3 card-shadow text-center"
           @click="showNotification(`${feature.name} coming soon!`, 'info')"
@@ -56,8 +56,8 @@
 
       <!-- Quick Stats -->
       <div class="grid grid-cols-3 gap-3 mb-6">
-        <q-card 
-          v-for="stat in quickStats" 
+        <q-card
+          v-for="stat in quickStats"
           :key="stat.label"
           class="p-3 card-shadow"
         >
@@ -85,19 +85,19 @@
       <!-- Grouped Transactions -->
       <div class="mb-20" id="transactionsContainer">
         <q-card
-          v-for="group in filteredTransactionGroups" 
+          v-for="group in filteredTransactionGroups"
           :key="group.date"
           class="date-group bg-white rounded-xl mb-3 card-shadow overflow-hidden"
         >
           <!-- Date Header -->
-          <div 
+          <div
             class="flex items-center justify-between p-4 cursor-pointer"
             @click="toggleGroup(group.date)"
           >
             <div class="flex items-center">
-              <q-avatar 
-                :color="group.isToday ? 'indigo-6' : 'grey-4'" 
-                text-color="white" 
+              <q-avatar
+                :color="group.isToday ? 'indigo-6' : 'grey-4'"
+                text-color="white"
                 size="48px"
                 class="mr-3"
               >
@@ -113,14 +113,14 @@
                 <div class="text-green-600 font-semibold text-sm">+{{ formatCurrency(group.dailyIncome) }}</div>
                 <div class="text-red-600 font-semibold text-sm">-{{ formatCurrency(group.dailyExpense) }}</div>
               </div>
-              <q-icon 
-                name="expand_more" 
+              <q-icon
+                name="expand_more"
                 class="expand-icon text-grey-400 transition-transform"
                 :class="{ 'rotate-180': expandedGroups.includes(group.date) }"
               />
             </div>
           </div>
-          
+
           <!-- Transaction Details -->
           <q-slide-transition>
             <div v-show="expandedGroups.includes(group.date)">
@@ -133,9 +133,9 @@
                   v-ripple
                 >
                   <div class="row items-center">
-                    <q-avatar 
-                      :color="`${getCategoryColor(transaction.category)}-1`" 
-                      text-color="white" 
+                    <q-avatar
+                      :color="`${getCategoryColor(transaction.category)}-1`"
+                      text-color="white"
                       size="40px"
                       class="mr-3"
                     >
@@ -147,7 +147,7 @@
                     </div>
                   </div>
                   <div class="text-right">
-                    <div 
+                    <div
                       class="font-bold"
                       :class="transaction.type === 'income' ? 'text-green-600' : 'text-red-600'"
                     >
@@ -164,10 +164,10 @@
 
     <!-- Floating Add Button -->
     <q-page-sticky position="bottom-right" :offset="[18, 80]">
-      <q-btn 
-        fab 
-        color="indigo" 
-        icon="add" 
+      <q-btn
+        fab
+        color="indigo"
+        icon="add"
         class="floating-btn"
         @click="showAddModal = true"
       />
@@ -177,10 +177,10 @@
     <q-dialog v-model="showAddModal" position="bottom" maximized>
       <q-card class="bg-white rounded-t-3xl" style="max-height: 90vh">
         <div class="w-12 h-1 bg-grey-300 rounded-full mx-auto mt-3 mb-6" />
-        
+
         <q-card-section>
           <h3 class="text-xl font-bold mb-6">Add Transaction</h3>
-          
+
           <q-form @submit="addTransaction" class="q-gutter-md">
             <!-- Transaction Type -->
             <div>
@@ -202,7 +202,7 @@
                 />
               </div>
             </div>
-            
+
             <!-- Amount -->
             <q-input
               v-model.number="newTransaction.amount"
@@ -214,7 +214,7 @@
               step="0.01"
               filled
             />
-            
+
             <!-- Category -->
             <q-select
               v-model="newTransaction.category"
@@ -223,7 +223,7 @@
               :rules="[val => !!val || 'Category is required']"
               filled
             />
-            
+
             <!-- Description -->
             <q-input
               v-model="newTransaction.description"
@@ -231,7 +231,7 @@
               placeholder="Enter description"
               filled
             />
-            
+
             <!-- Buttons -->
             <div class="row q-gutter-sm q-mt-lg">
               <q-btn
@@ -256,35 +256,35 @@
     <!-- Bottom Navigation -->
     <q-footer elevated class="bg-white text-dark q-pa-xs">
       <div class="row justify-around text-center">
-        <q-btn 
-          flat 
-          round 
-          icon="home" 
-          label="Home" 
+        <q-btn
+          flat
+          round
+          icon="home"
+          label="Home"
           color="indigo"
           @click="$router.push({ name: 'home' })"
         />
-        <q-btn 
-          flat 
-          round 
-          icon="bar_chart" 
-          label="Stats" 
+        <q-btn
+          flat
+          round
+          icon="bar_chart"
+          label="Stats"
           color="grey-6"
           @click="$router.push({ name: 'stats' })"
         />
-        <q-btn 
-          flat 
-          round 
-          icon="receipt_long" 
-          label="Report" 
+        <q-btn
+          flat
+          round
+          icon="receipt_long"
+          label="Report"
           color="grey-6"
           @click="$router.push({ name: 'report' })"
         />
-        <q-btn 
-          flat 
-          round 
-          icon="person" 
-          label="Profile" 
+        <q-btn
+          flat
+          round
+          icon="person"
+          label="Profile"
           color="grey-6"
           @click="$router.push({ name: 'profile' })"
         />
@@ -476,9 +476,9 @@ function addTransaction() {
       paymentMethod: newTransaction.value.paymentMethod,
       type: transactionType.value
     }
-    
+
     todayGroup.transactions.unshift(newTx)
-    
+
     if (transactionType.value === 'income') {
       todayGroup.dailyIncome += newTransaction.value.amount
       income.value += newTransaction.value.amount

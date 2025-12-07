@@ -43,7 +43,7 @@ class Expense(models.Model):
     group = models.ForeignKey(ExpenseGroup, on_delete=models.CASCADE, null=True, blank=True, related_name='expenses')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    description = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
     expense_type = models.CharField(max_length=10, choices=EXPENSE_TYPE_CHOICES, default='expense')
     date = models.DateField()
     receipt = models.ImageField(upload_to='receipts/', null=True, blank=True)
