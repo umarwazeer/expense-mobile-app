@@ -92,43 +92,37 @@ WSGI_APPLICATION = 'expense_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASE_URL = "mysql://root:tumdXmpAzCYqfxIJqexCZHSefdwCUluz@yamabiko.proxy.rlwy.net:21695/railway"
+DATABASE_URL = os.getenv("MYSQL_URL")
 
-DATABASES = {
-    "default": dj_database_url.parse(
-        os.environ.get("MYSQL_URL"),
-        engine="django.db.backends.mysql",
-        conn_max_age=600
-    )
-}
-
-
-
-
-
-
-# if DATABASE_URL:
-#     DATABASES = {
-#          "default": dj_database_url.parse(
-#         DATABASE_URL,
+# DATABASES = {
+#     "default": dj_database_url.parse(
+#         os.environ.get("MYSQL_URL"),
 #         engine="django.db.backends.mysql",
 #         conn_max_age=600
 #     )
-#     }
-# else:
-#     DATABASES = {
-#          'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'NAME': os.getenv("MYSQL_DATABASE", "railway"),
-#             'USER': os.getenv("MYSQLUSER", "root"),
-#             'PASSWORD': os.getenv("tumdXmpAzCYqfxIJqexCZHSefdwCUluz"),
-#             'HOST': os.getenv("MYSQLHOST", "containers-us-west-123.railway.app"),
-#             'PORT': os.getenv("MYSQLPORT", "3306"),
-#             'OPTIONS': {
-#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#             }
-#     }
 # }
+
+
+if DATABASE_URL:
+    DATABASES = {
+         "default": dj_database_url.parse(
+            DATABASE_URL,
+            engine="django.db.backends.mysql",
+            conn_max_age=600
+    )   
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv("MYSQLDATABASE", ""),
+            'USER': os.getenv("MYSQLUSER", ""),
+            'PASSWORD': os.getenv("MYSQLPASSWORD", ""),
+            'HOST': os.getenv("MYSQLHOST", ""),
+            'PORT': os.getenv("MYSQLPORT", "3306"),
+        }
+    
+}
 
 
 
