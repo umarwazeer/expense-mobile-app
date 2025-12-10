@@ -95,18 +95,14 @@ WSGI_APPLICATION = 'expense_manager.wsgi.application'
 # DATABASE_URL = "mysql://root:tumdXmpAzCYqfxIJqexCZHSefdwCUluz@yamabiko.proxy.rlwy.net:21695/railway"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("MYSQLDATABASE"),
-        'USER': os.getenv("MYSQLUSER"),
-        'PASSWORD': os.getenv("MYSQLPASSWORD"),
-        'HOST': os.getenv("MYSQLHOST"),
-        'PORT': os.getenv("MYSQLPORT", "3306"),
-        'OPTIONS': {
-            "charset": "utf8mb4",
-        },
-    }
+    "default": dj_database_url.parse(
+        os.environ.get("MYSQL_URL"),
+        engine="django.db.backends.mysql",
+        conn_max_age=600
+    )
 }
+
+
 
 
 
