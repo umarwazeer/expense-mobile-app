@@ -31,17 +31,14 @@ PORT = os.environ.get("PORT", "8000")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "fallback-secret")
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
     "expense-mobile-app-production.up.railway.app",
-    "127.0.0.1",
     "localhost",
+    "127.0.0.1",
 ]
 
 
@@ -95,30 +92,47 @@ WSGI_APPLICATION = 'expense_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASE_URL = "mysql://root:tumdXmpAzCYqfxIJqexCZHSefdwCUluz@yamabiko.proxy.rlwy.net:21695/railway"
+# DATABASE_URL = "mysql://root:tumdXmpAzCYqfxIJqexCZHSefdwCUluz@yamabiko.proxy.rlwy.net:21695/railway"
 
-if DATABASE_URL:
-    DATABASES = {
-         'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        engine="django.db.backends.mysql",
-        conn_max_age=600
-    )
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv("MYSQLDATABASE"),
+        'USER': os.getenv("MYSQLUSER"),
+        'PASSWORD': os.getenv("MYSQLPASSWORD"),
+        'HOST': os.getenv("MYSQLHOST"),
+        'PORT': os.getenv("MYSQLPORT", "3306"),
+        'OPTIONS': {
+            "charset": "utf8mb4",
+        },
     }
-else:
-    DATABASES = {
-         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'railway',  # your local DB name
-            'USER': 'root',     # your MySQL user (change if needed)
-            'PASSWORD': 'tumdXmpAzCYqfxIJqexCZHSefdwCUluz',  # your local MySQL password
-            'HOST': 'yamabiko.proxy.rlwy.net',  # FIXED (must be 127.0.0.1)
-            'PORT': '21695',
-            'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-            }
-        }
 }
+
+
+
+
+# if DATABASE_URL:
+#     DATABASES = {
+#          "default": dj_database_url.parse(
+#         DATABASE_URL,
+#         engine="django.db.backends.mysql",
+#         conn_max_age=600
+#     )
+#     }
+# else:
+#     DATABASES = {
+#          'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': os.getenv("MYSQL_DATABASE", "railway"),
+#             'USER': os.getenv("MYSQLUSER", "root"),
+#             'PASSWORD': os.getenv("tumdXmpAzCYqfxIJqexCZHSefdwCUluz"),
+#             'HOST': os.getenv("MYSQLHOST", "containers-us-west-123.railway.app"),
+#             'PORT': os.getenv("MYSQLPORT", "3306"),
+#             'OPTIONS': {
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             }
+#     }
+# }
 
 
 
@@ -157,7 +171,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/tatic/'
+STATIC_URL = '/static/' 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
@@ -202,6 +216,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
+        "rest_framework.permissions.AllowAny"
+
     ],
 }
 

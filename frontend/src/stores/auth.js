@@ -1,8 +1,9 @@
 // src/stores/auth.js
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import api from "src/api.js";
 
-const API_URL = 'http://127.0.0.1:8000/api'
+
+// const api = 'http://127.0.0.1:8000/api'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -20,14 +21,14 @@ export const useAuthStore = defineStore('auth', {
     // ✅ LOGIN
     async login(credentials) {
       try {
-        const { data } = await axios.post(`${API_URL}/auth/login/`, credentials)
+        const { data } = await api.post("/auth/login/", credentials)
 
         this.token = data.access
         this.user = data.user
         this.isAuthenticated = true
 
         localStorage.setItem('token', this.token)
-        axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+        api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
         console.log("userLogin", credentials)
         return { success: true }
       } catch (error) {
@@ -42,14 +43,14 @@ export const useAuthStore = defineStore('auth', {
     // ✅ REGISTER
     async register(userData) {
       try {
-        const { data } = await axios.post(`${API_URL}/auth/register/`, userData)
+        const { data } = await api.post("/auth/register/", userData)
 
         this.token = data.access
         this.user = data.user
         this.isAuthenticated = true
 
         localStorage.setItem('token', this.token)
-        axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+        api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
 
         return { success: true }
       } catch (error) {
@@ -68,7 +69,7 @@ export const useAuthStore = defineStore('auth', {
       this.token = null
       this.isAuthenticated = false
       localStorage.removeItem('token')
-      delete axios.defaults.headers.common['Authorization']
+      delete api.defaults.headers.common['Authorization']
 
       // Do redirect in the component that calls logout:
       // const router = useRouter(); router.push('/auth/login')
@@ -80,12 +81,12 @@ export const useAuthStore = defineStore('auth', {
       if (token) {
         this.token = token
         this.isAuthenticated = true
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`
         this.fetchUser().catch(() => {})
       } else {
         this.isAuthenticated = false
         this.user = null
-        delete axios.defaults.headers.common['Authorization']
+        delete api.defaults.headers.common['Authorization']
       }
     },
 
@@ -94,7 +95,7 @@ export const useAuthStore = defineStore('auth', {
       if (!this.token) return
       try {
         // Adjust URL to your backend: /auth/profile/ or /auth/me/ etc.
-        const { data } = await axios.get(`${API_URL}/auth/profile/`)
+        const { data } = await api.get("/auth/profile/")
         this.user = data
         return { success: true }
       } catch (error) {
@@ -107,7 +108,7 @@ export const useAuthStore = defineStore('auth', {
     async updateProfile(payload) {
       try {
         // Adjust URL + payload according to your backend
-        const { data } = await axios.put(`${API_URL}/auth/profile/`, payload)
+        const { data } = await api.put("auth/profile/", payload)
         this.user = data
         return { success: true }
       } catch (error) {
@@ -123,7 +124,7 @@ export const useAuthStore = defineStore('auth', {
     async changePassword({ currentPassword, newPassword }) {
       try {
         // Adjust URL + field names according to backend
-        await axios.post(`${API_URL}/auth/change-password/`, {
+        await api.post("/auth/change-password/", {
           current_password: currentPassword,
           new_password: newPassword,
         })
